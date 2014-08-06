@@ -17,9 +17,11 @@ document.addEventListener('DOMContentLoaded', function(){
 	  var bpm = 60 / ( $('#bpm')[0].value );
 	  var kicksteps = $('.kickstep');
 	  var snaresteps = $('.snarestep');
+	  var hatsteps = $('.hatstep');
+		var crashsteps = $('.crashstep');
 
-	  console.log(kicksteps);
-	  console.log(snaresteps);
+	  console.log(crashsteps);
+	  // console.log(snaresteps);
 
 	  for (var i=0; i < kicksteps.length; i++){
 	  	var beat = i + 1;
@@ -27,8 +29,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	  	if(kicksteps[i].checked){
 	  		loadSound(0, sampleUrls, time);
-	  	} else if (snaresteps[i].checked) {
+	  	} 
+	  	if (snaresteps[i].checked) {
 	  		loadSound(1, sampleUrls, time);
+	  	} 
+	  	if (hatsteps[i].checked) {
+	  		loadSound(2, sampleUrls, time);
+	  	} 
+	  	if (crashsteps[i].checked){
+	  		loadSound(3, sampleUrls, time);
 	  	}
 	  };
 
