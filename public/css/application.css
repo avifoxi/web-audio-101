@@ -9,3 +9,14 @@ th {
 }
 
 canvas{ background: blue;}
+
+#step-grid {
+	width: 80%;
+	border: 1px black solid;
+}
+
+td{
+	border: 1px black solid;
+	padding: 1em;
+}
+
