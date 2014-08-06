@@ -29,9 +29,15 @@ document.addEventListener('DOMContentLoaded', function(){
 	hihatButt.addEventListener('click', playHat, false)
 	crashButt.addEventListener('click', playCrash, false)
 
-	rockNroll(0.25, sampleUrls)
+	// rockNroll(0.25, sampleUrls);
 
-	// loadSamples(sampleRoutes);
+	$("#rockNroll").submit(function( event ) {
+	  event.preventDefault();
+	  var bpm = $('#bpm')[0].value;
+	  console.log( bpm  );
+	  rockNroll( (60/bpm), sampleUrls )
+	});
+
 });
 
 
