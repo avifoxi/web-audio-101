@@ -1,13 +1,28 @@
 document.addEventListener('DOMContentLoaded', function(){
-
-	var controller = new Controller(new AudioContext(), 'view tbd');
+	var view = new View(document.getElementsByTagName('button')[0]);
+	var controller = new Controller(new AudioContext(), view);
 	controller.loadBuffer("/samples/Kit/CyCdh_K3Crash-07.wav");
+
+	controller.view.listenToButt();
+
 });
+
+var View = function(triggerButt) {
+	this.triggerButt = triggerButt;
+}
+
+View.prototype.listenToButt = function() {
+	this.triggerButt.addEventListener('click', 
+		function(){console.log('listenign')}, 
+		// controller should be listening for this event - through the view... how do we do this ? 
+		false);
+}
+
 
 var Controller = function(context, view) {
 	this.context = context;
 	this.view = view;
-	this.buffer = 'i so buffer';
+	this.buffer = 'unloaded buffer, boo hoo';
 }
 
 Controller.prototype.loadBuffer = function(url){
@@ -29,12 +44,12 @@ Controller.prototype.directTraffic2Buffer = function(request){
 	var controller = this;
 
 	request.onload = function() {
-		console.log(context);
-		console.log(request);
-		console.log(controller.buffer); // before the request
+		// console.log(context);
+		// console.log(request);
+		// console.log(controller.buffer); // before the request
   	context.decodeAudioData(request.response, function(sample) {
     	controller.buffer = sample;
-    	console.log(controller.buffer); // on success contains a decoded Audio Buffer. WORD.
+    	// console.log(controller.buffer); // on success contains a decoded Audio Buffer. WORD.
 	  }, function(){ alert('error loading');});
 	}
 }
