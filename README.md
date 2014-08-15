@@ -1,5 +1,9 @@
 # README AND TODOS
 
+[MVC Gist](https://gist.github.com/b16761c646f22033e1cc.git)
+
+
+
 exploring basic audio functionality in browser, to expand my JS ability and do fun stuff. web audio api. thanks w3c. 
 
 Two Mains Goals:
