@@ -4,7 +4,9 @@ get '/' do
 end
 
 get '/grid1' do 
-
 	erb :grid1
+end
 
+get '/one-ajax-trip' do
+	erb :ajaxOnLoad_manyTriggers, :layout => false
 end
