@@ -1,28 +1,37 @@
 document.addEventListener('DOMContentLoaded', function(){
-	var view = new View(document.getElementsByTagName('button')[0]);
-	var controller = new Controller(new AudioContext(), view);
+	
+	var context = new AudioContext(); // first the model
+	var view = new View(context, document.getElementsByTagName('button')[0]); // view must reference model
+
+	var controller = new Controller(context, view); // model must hold model, AND view... which contains viewmodel. oh observer... 
+	
 	controller.loadBuffer("/samples/Kit/CyCdh_K3Crash-07.wav");
 
-	controller.view.listenToButt();
+	controller.view.listenToButt( callBackPlay );
 
 });
 
-var View = function(triggerButt) {
-	this.triggerButt = triggerButt;
+var View = function(context, triggerButt) {
+	this.context = context;
+	this.triggerButt = triggerButt; 
 }
 
-View.prototype.listenToButt = function() {
+View.prototype.listenToButt = function( cb ) {
 	this.triggerButt.addEventListener('click', 
-		function(){console.log('listenign')}, 
+		this.context.cb, 
 		// controller should be listening for this event - through the view... how do we do this ? 
 		false);
+}
+
+View.prototype.ctlCallback = function(){
+
 }
 
 
 var Controller = function(context, view) {
 	this.context = context;
 	this.view = view;
-	this.buffer = 'unloaded buffer, boo hoo';
+	this.buffer = 'unloaded buffer, boo hoo'; // this is bad design temporarily - a controller should not be holding this info - probbably some sort of buffer holder object? or can the audio context do this with persistence? 
 }
 
 Controller.prototype.loadBuffer = function(url){
@@ -44,21 +53,48 @@ Controller.prototype.directTraffic2Buffer = function(request){
 	var controller = this;
 
 	request.onload = function() {
-		// console.log(context);
-		// console.log(request);
-		// console.log(controller.buffer); // before the request
+
   	context.decodeAudioData(request.response, function(sample) {
     	controller.buffer = sample;
-    	// console.log(controller.buffer); // on success contains a decoded Audio Buffer. WORD.
-	  }, function(){ alert('error loading');});
+    	console.log(controller.buffer);
+    	// on success contains a decoded Audio Buffer. WORD.
+	  }, function(){ alert('error loading sounds ');});
 	}
 }
 
+Controller.prototype.callBackPlay = function(){
+	var ctr = this;
+	console.log(this);
+
+}
 
 
- //  request.onload = function() {
- //  	context.decodeAudioData(request.response, function(theBuffer) {
- //    	buffer = theBuffer;
- //    	playSound(buffer, when);
-	//   }, whoops);
-	// }
+/// IMPLEMENTING OBSERVER PATTERN 
+
+function Event(sender) {
+    this._sender = sender;
+    this._listeners = [];
+}
+
+Event.prototype = {
+    attach : function (listener) {
+        this._listeners.push(listener);
+    },
+    notify : function (args) {
+        var index;
+
+        for (index = 0; index < this._listeners.length; index += 1) {
+            this._listeners[index](this._sender, args);
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
