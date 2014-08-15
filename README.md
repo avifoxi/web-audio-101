@@ -1,6 +1,6 @@
 # README AND TODOS
 
-[MVC Gist](https://gist.github.com/b16761c646f22033e1cc.git)
+[MVC Gist](https://gist.github.com/avifoxi)
 
 
 
